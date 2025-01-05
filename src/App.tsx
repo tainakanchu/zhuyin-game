@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import "./App.css";
-import { Zhuyin, pinyinDictionary } from "./Zhuyin";
+import { useMemo, useState } from 'react';
+import './App.css';
+import { Zhuyin, pinyinDictionary } from './Zhuyin';
 
 const CANDIDATE_COUNT = 6;
 
@@ -51,26 +51,26 @@ function App() {
     <>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
         }}
       >
         <h1
           style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: "0px",
+            fontSize: '30px',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: '0px',
           }}
         >
           {/* 星とかいれる */}
           <span
             style={{
-              fontWeight: "bold",
-              color: "red",
+              fontWeight: 'bold',
+              color: 'red',
             }}
           >
             🌟注音遊戯🌟
@@ -80,11 +80,10 @@ function App() {
         {/* ランダムで注音を表示 */}
         <div
           style={{
-            fontSize: "100px",
-            fontWeight: "bold",
-
-            // 目立たせる
-            textShadow: "0 0 10px #000",
+            fontSize: '100px',
+            fontWeight: 'bold',
+            textShadow: '0 0 10px #000',
+            cursor: 'pointer',
           }}
         >
           {answer}
@@ -93,12 +92,12 @@ function App() {
         {/* 正解を含む選択肢を4つ表示 */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: "20px",
-            flexWrap: "wrap",
-            width: "100%",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            gap: '20px',
+            flexWrap: 'wrap',
+            width: '100%',
           }}
         >
           {candidates
@@ -109,17 +108,23 @@ function App() {
             .map((item) => (
               <div
                 style={{
-                  fontSize: "100px",
-                  fontWeight: "bold",
-                  border: "1px solid #ccc",
-                  padding: "10px 50px",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  fontSize: '100px',
+                  fontWeight: 'bold',
+                  border: '1px solid #ccc',
+                  padding: '10px 50px',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
                 }}
                 key={item}
                 onClick={() => handleClickAnswer(item)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleClickAnswer(item);
+                  }
+                }}
               >
                 {item}
               </div>
@@ -128,9 +133,9 @@ function App() {
         {/* 合否の表示 */}
         <div
           style={{
-            fontSize: "100px",
-            fontWeight: "bold",
-            marginTop: "20px",
+            fontSize: '100px',
+            fontWeight: 'bold',
+            marginTop: '20px',
           }}
         >
           {isCorrect === true && <div>正解</div>}
@@ -138,7 +143,16 @@ function App() {
         </div>
         <div>
           {isCorrect !== undefined && (
-            <button onClick={handleNextQuestion}>次の問題</button>
+            <button
+              type="button"
+              onClick={handleNextQuestion}
+              style={{
+                fontSize: '100px',
+                fontWeight: 'bold',
+              }}
+            >
+              次の問題
+            </button>
           )}
         </div>
       </div>
