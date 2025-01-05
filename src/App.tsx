@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import './App.css';
 import { Zhuyin, pinyinDictionary } from './Zhuyin';
 
 const CANDIDATE_COUNT = 6;
@@ -47,21 +48,12 @@ function App() {
   };
 
   return (
-    <main
-      style={{
-        maxWidth: '1280px',
-        margin: '0 auto',
-        padding: '2rem',
-        textAlign: 'center',
-      }}
-    >
+    <main>
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
         }}
       >
         <h1
@@ -72,7 +64,6 @@ function App() {
             marginBottom: '0px',
           }}
         >
-          {/* 星とかいれる */}
           <span
             style={{
               fontWeight: 'bold',
