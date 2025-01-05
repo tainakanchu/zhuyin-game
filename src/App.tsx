@@ -3,7 +3,7 @@ import './App.css';
 import { type Pinyin, Zhuyin, pinyinDictionary } from './Zhuyin';
 import { CANDIDATE_COUNT } from './const';
 import { getRandomCandidate, shuffleArray } from './utils/random';
-import { blue } from './color';
+import { blue, red } from './color';
 import { ShowResultBar } from './components/ShowResultBar';
 import { getZhuyinFromPinyin } from './utils/getZhuyinFromPinyin';
 
@@ -14,8 +14,6 @@ const getRandomZhuyinCandidate = () => {
 function App() {
   const [candidates, setCandidates] = useState(getRandomZhuyinCandidate());
 
-  const [isCorrect, setIsCorrect] = useState<boolean | undefined>(undefined);
-
   /**
    * 一つ目を答えにする
    */
@@ -23,24 +21,28 @@ function App() {
 
   const questions = useMemo(() => shuffleArray(candidates), [candidates]);
 
-  const handleClickAnswer = (pinyin: Pinyin) => {
-    const zhuyinAnswer = getZhuyinFromPinyin(pinyin);
+  const [selectedAnswers, setSelectedAnswers] = useState<Pinyin[]>([]);
 
-    if (answer === zhuyinAnswer) {
-      setIsCorrect(true);
-    } else {
-      setIsCorrect(false);
-    }
+  const isCorrectSelected = useMemo(() => {
+    if (selectedAnswers.length === 0) return undefined;
+    const pinyinAnswer = pinyinDictionary[answer];
+    return selectedAnswers.includes(pinyinAnswer);
+  }, [selectedAnswers, answer]);
+
+  const handleClickAnswer = (pinyin: Pinyin) => {
+    setSelectedAnswers([...selectedAnswers, pinyin]);
   };
 
   const handleNextQuestion = () => {
     setCandidates(getRandomZhuyinCandidate());
-    setIsCorrect(undefined);
+    setSelectedAnswers([]);
   };
 
   return (
     <main>
-      {isCorrect !== undefined && <ShowResultBar result={isCorrect} />}
+      {isCorrectSelected !== undefined && (
+        <ShowResultBar result={isCorrectSelected} />
+      )}
 
       <div
         style={{
@@ -68,7 +70,6 @@ function App() {
           </span>
         </h1>
 
-        {/* ランダムで注音を表示 */}
         <div
           style={{
             fontSize: '100px',
@@ -80,7 +81,6 @@ function App() {
           {answer}
         </div>
 
-        {/* 正解を含む選択肢を4つ表示 */}
         <div
           style={{
             display: 'flex',
@@ -94,9 +94,19 @@ function App() {
           {questions
             .map((item) => {
               const pinyin = pinyinDictionary[item];
-              return pinyin;
+              return {
+                pinyin,
+                isSelected: selectedAnswers.includes(pinyin),
+              };
             })
             .map((item) => {
+              const zhuyin = getZhuyinFromPinyin(item.pinyin);
+              const backgroundColor = item.isSelected
+                ? zhuyin === answer
+                  ? blue
+                  : red
+                : 'transparent';
+
               return (
                 <div
                   style={{
@@ -110,16 +120,17 @@ function App() {
                     justifyContent: 'center',
                     cursor: 'pointer',
                     width: '10px',
+                    backgroundColor,
                   }}
-                  key={item}
-                  onClick={() => handleClickAnswer(item)}
+                  key={item.pinyin}
+                  onClick={() => handleClickAnswer(item.pinyin)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      handleClickAnswer(item);
+                      handleClickAnswer(item.pinyin);
                     }
                   }}
                 >
-                  {item}
+                  {item.pinyin}
                 </div>
               );
             })}
@@ -136,13 +147,13 @@ function App() {
             style={{
               fontSize: '36px',
               fontWeight: 'bold',
-              backgroundColor: isCorrect === undefined ? '#ccc' : blue,
+              backgroundColor: isCorrectSelected ? blue : '#ccc',
               color: 'white',
               border: 'none',
               borderRadius: '10px',
               padding: '10px 20px',
             }}
-            disabled={isCorrect === undefined}
+            disabled={!isCorrectSelected}
           >
             次の問題
           </button>
