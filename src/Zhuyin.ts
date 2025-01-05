@@ -40,7 +40,49 @@ export const Zhuyin = [
 
 export type Zhuyin = (typeof Zhuyin)[number];
 
-export const pinyinDictionary: Record<Zhuyin, string> = {
+export const Pinyin = [
+  'b',
+  'p',
+  'm',
+  'f',
+  'd',
+  't',
+  'n',
+  'l',
+  'g',
+  'k',
+  'h',
+  'j',
+  'q',
+  'x',
+  'zh',
+  'ch',
+  'sh',
+  'r',
+  'z',
+  'c',
+  's',
+  'i',
+  'u',
+  'ü',
+  'a',
+  'o',
+  'e',
+  'ê',
+  'ai',
+  'ei',
+  'ao',
+  'ou',
+  'an',
+  'en',
+  'ang',
+  'eng',
+  'er',
+];
+
+export type Pinyin = (typeof Pinyin)[number];
+
+export const pinyinDictionary: Record<Zhuyin, Pinyin> = {
   ㄅ: 'b',
   ㄆ: 'p',
   ㄇ: 'm',
