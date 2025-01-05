@@ -97,6 +97,7 @@ function App() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          padding: '2rem',
         }}
       >
         <h1
@@ -145,30 +146,33 @@ function App() {
               const pinyin = pinyinDictionary[item];
               return pinyin;
             })
-            .map((item) => (
-              <div
-                style={{
-                  fontSize: '100px',
-                  fontWeight: 'bold',
-                  border: '1px solid #ccc',
-                  padding: '10px 50px',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}
-                key={item}
-                onClick={() => handleClickAnswer(item)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleClickAnswer(item);
-                  }
-                }}
-              >
-                {item}
-              </div>
-            ))}
+            .map((item) => {
+              return (
+                <div
+                  style={{
+                    fontSize: '36px',
+                    fontWeight: 'bold',
+                    border: '1px solid #ccc',
+                    padding: '10px 50px',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    width: '10px',
+                  }}
+                  key={item}
+                  onClick={() => handleClickAnswer(item)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleClickAnswer(item);
+                    }
+                  }}
+                >
+                  {item}
+                </div>
+              );
+            })}
         </div>
 
         <div
