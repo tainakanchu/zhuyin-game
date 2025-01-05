@@ -20,6 +20,47 @@ const getRandomCandidate = () => {
   return candidates.sort(() => Math.random() - 0.5).slice(0, CANDIDATE_COUNT);
 };
 
+const redColor = '#ff0000';
+const blueColor = '#0000ff';
+
+/**
+ * 画面の一番上に表示するバー
+ * @param param0
+ * @returns
+ */
+const ShowResultBar: React.FC<{ result: boolean }> = ({ result }) => {
+  // 正解の時は青色、不正解の時は赤色
+  const color = result ? blueColor : redColor;
+
+  return (
+    <div
+      style={{
+        fontSize: '100px',
+        fontWeight: 'bold',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '34px',
+        backgroundColor: color,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '30px',
+          fontWeight: 'bold',
+          color: 'white',
+        }}
+      >
+        {result ? '正解' : '不正解'}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [question, setQuestion] = useState(getRandomCandidate());
 
@@ -49,6 +90,8 @@ function App() {
 
   return (
     <main>
+      {isCorrect !== undefined && <ShowResultBar result={isCorrect} />}
+
       <div
         style={{
           display: 'flex',
@@ -127,30 +170,28 @@ function App() {
               </div>
             ))}
         </div>
-        {/* 合否の表示 */}
+
         <div
           style={{
-            fontSize: '100px',
-            fontWeight: 'bold',
             marginTop: '20px',
           }}
         >
-          {isCorrect === true && <div>正解</div>}
-          {isCorrect === false && <div>不正解</div>}
-        </div>
-        <div>
-          {isCorrect !== undefined && (
-            <button
-              type="button"
-              onClick={handleNextQuestion}
-              style={{
-                fontSize: '100px',
-                fontWeight: 'bold',
-              }}
-            >
-              次の問題
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleNextQuestion}
+            style={{
+              fontSize: '36px',
+              fontWeight: 'bold',
+              backgroundColor: isCorrect === undefined ? '#ccc' : blueColor,
+              color: 'white',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '10px 20px',
+            }}
+            disabled={isCorrect === undefined}
+          >
+            次の問題
+          </button>
         </div>
       </div>
     </main>
