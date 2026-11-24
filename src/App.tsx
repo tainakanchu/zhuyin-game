@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
 import './App.css';
 import { type Pinyin, Zhuyin, pinyinDictionary } from './Zhuyin';
-import { CANDIDATE_COUNT } from './const';
-import { getRandomCandidate, shuffleArray } from './utils/random';
 import { blue, red } from './color';
 import { ShowResultBar } from './components/ShowResultBar';
+import { CANDIDATE_COUNT } from './const';
 import { getZhuyinFromPinyin } from './utils/getZhuyinFromPinyin';
+import { getRandomCandidate, shuffleArray } from './utils/random';
 
 const getRandomZhuyinCandidate = () => {
   return getRandomCandidate([...Zhuyin], CANDIDATE_COUNT);
